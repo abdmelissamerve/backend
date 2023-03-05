@@ -1,0 +1,30 @@
+version: "3.1"
+
+services:
+    app:
+        build: .
+        ports:
+            - "3050:3050"
+        command: npm run dev
+        depends_on:
+            - database
+        env_file:
+            - .env
+        volumes:
+            - .:/src/
+            - /src/node_modules/
+        environment:
+            POSTGRES_PASSWORD: mysecretpassword
+
+    database:
+        image: "postgres:14"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: secret
+            POSTGRES_DB: postgres
+        ports:
+            - "5432:5432"
+        volumes:
+            - database-data:/var/lib/postgresql/data/
+volumes:
+    database-data:
