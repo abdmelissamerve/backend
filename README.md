@@ -1,2 +1,3 @@
 # pinglatency-backend
-The backend application for Ping Latency.
+
+The backend application for CSML backend
