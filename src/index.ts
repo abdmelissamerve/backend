@@ -3,7 +3,9 @@ import express, { Application, Request, Response } from "express";
 import config from "../config";
 import bodyParser from "body-parser";
 import usersRoutes from "./routes/users.routes";
+import authRoutes from "./routes/auth.routes";
 import database from "./database";
+
 
 const app: Application = express();
 const port = config.port;
@@ -16,9 +18,10 @@ database.sync().then(() => {
 });
 
 app.use("/users", usersRoutes);
+app.use("/auth", authRoutes);
 
-app.get("/", (req: Request, res: Response) => {
-    res.send("Hello, world!");
+app.get("/", async (req: Request, res: Response) => {
+    res.send("Health check passed!");
 });
 
 app.listen(port, () => {

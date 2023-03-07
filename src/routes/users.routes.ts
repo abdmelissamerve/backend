@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { User, UserInput, UserOutput } from "../models";
 import UserService from "../services/userService";
+import { CreateUserDTO, UpdateUserDTO } from "../types/user";
 
 const router = Router();
 const userService = new UserService();
@@ -29,7 +29,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 // POST - users
 router.post("/", async (req: Request, res: Response) => {
-    let newUser = req.body as UserInput;
+    let newUser = req.body as CreateUserDTO;
     try {
         const result = await userService.create(newUser);
         res.status(200).json({ user: result });
@@ -41,7 +41,7 @@ router.post("/", async (req: Request, res: Response) => {
 // PATCH - users
 router.patch("/:id", async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const updatedUser = req.body as Partial<UserInput>;
+    const updatedUser = req.body as UpdateUserDTO;
     try {
         const result = await userService.update(id, updatedUser);
         res.status(200).json({ user: result });

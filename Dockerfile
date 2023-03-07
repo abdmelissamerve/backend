@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3050
 
 # Start the Express server
-CMD [ "npx", "nodemon", "index.ts"]
+CMD [ "npx", "nodemon", "/Users/melissamerve/Documents/disertatie/backend/src/index.ts"]

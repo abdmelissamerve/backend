@@ -12,7 +12,7 @@ services:
             - .env
         volumes:
             - .:/src/
-            - /src/node_modules/
+            - /Users/melissamerve/Documents/disertatie/backend/node_modules/
         environment:
             POSTGRES_PASSWORD: mysecretpassword
 

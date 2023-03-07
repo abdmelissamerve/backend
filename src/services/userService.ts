@@ -1,8 +1,10 @@
 import IUserInterface from "../interfaces/IUserInterface";
-import { User, UserInput, UserOutput } from "../models";
+import { User } from "../models";
+import { UserDTO, UpdateUserDTO, CreateUserDTO } from "../types/user";
 
 export default class UserService implements IUserInterface {
-    public async getAll(filters: any): Promise<UserOutput[]> {
+    
+    public async getAll(filters: any): Promise<User[]> {
         const whereClause: any = {};
         Object.keys(filters).forEach((key) => {
             whereClause[key] = filters[key];
@@ -10,7 +12,7 @@ export default class UserService implements IUserInterface {
         return await User.findAll({ where: whereClause });
     }
 
-    public async getById(id: number): Promise<UserOutput | null> {
+    public async getById(id: number): Promise<User | null> {
         const user = await User.findByPk(id);
         if (!user) {
             throw new Error(`User with id ${id} not found`);
@@ -18,15 +20,19 @@ export default class UserService implements IUserInterface {
         return user;
     }
 
-    public async create(user: UserInput): Promise<UserOutput> {
+    public async getByEmail(email: string): Promise<User | null> {
+        return await User.findOne({ where: { email } });
+    }
+
+    public async create(user: CreateUserDTO): Promise<User> {
         const newUser = await User.create(user);
-        return newUser.dataValues;
+        return newUser;
     }
 
     public async update(
         id: number,
-        updates: Partial<UserInput>
-    ): Promise<UserOutput> {
+        updates: UpdateUserDTO
+    ): Promise<User> {
         const user = await User.findByPk(id);
         if (!user) {
             throw new Error(`User with id ${id} not found`);

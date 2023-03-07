@@ -1,12 +1,13 @@
 import { Model, Sequelize, DataTypes, Optional } from "sequelize";
 import database from "../database";
 
-interface UserModel {
+export interface UserModel {
     id: number;
     firstName: string;
     lastName: string;
     email: string;
     password: string;
+    phoneNumber?: string;
     isActive: boolean;
     photoUrl?: string;
     role: string;
@@ -26,6 +27,7 @@ class User extends Model<UserModel, UserInput> implements UserModel {
     public lastName!: string;
     public email!: string;
     public password!: string;
+    public phoneNumber?: string;
     public isActive!: boolean;
     public photoUrl?: string;
     public role!: string;
@@ -57,6 +59,10 @@ User.init(
         password: {
             type: DataTypes.STRING(255),
         },
+        phoneNumber: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+            unique: true},
         isActive: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
