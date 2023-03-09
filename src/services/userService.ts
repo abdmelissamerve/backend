@@ -3,7 +3,6 @@ import { User } from "../models";
 import { UserDTO, UpdateUserDTO, CreateUserDTO } from "../types/user";
 
 export default class UserService implements IUserInterface {
-    
     public async getAll(filters: any): Promise<User[]> {
         const whereClause: any = {};
         Object.keys(filters).forEach((key) => {
@@ -12,12 +11,19 @@ export default class UserService implements IUserInterface {
         return await User.findAll({ where: whereClause });
     }
 
-    public async getById(id: number): Promise<User | null> {
+    public async getById(id: number): Promise<UserDTO | null> {
         const user = await User.findByPk(id);
         if (!user) {
             throw new Error(`User with id ${id} not found`);
         }
-        return user;
+        const res: UserDTO = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+        };
+        return res;
     }
 
     public async getByEmail(email: string): Promise<User | null> {
@@ -29,10 +35,7 @@ export default class UserService implements IUserInterface {
         return newUser;
     }
 
-    public async update(
-        id: number,
-        updates: UpdateUserDTO
-    ): Promise<User> {
+    public async update(id: number, updates: UpdateUserDTO): Promise<User> {
         const user = await User.findByPk(id);
         if (!user) {
             throw new Error(`User with id ${id} not found`);

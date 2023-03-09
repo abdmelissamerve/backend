@@ -1,8 +1,10 @@
 import { Optional } from "sequelize";
 import { UserModel } from "../models/user";
 
+//TODO: create firebase user dto
+//TODO: create a toDTO method
 export interface UserDTO {
-    id: string;
+    id: number | string;
     firstName?: string;
     lastName?: string;
     email?: string;

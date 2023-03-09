@@ -22,7 +22,7 @@ export interface UserInput extends Optional<UserModel, "id"> {}
 export interface UserOutput extends Partial<UserModel> {}
 
 class User extends Model<UserModel, UserInput> implements UserModel {
-    public id: number;
+    declare id: number;
     public firstName!: string;
     public lastName!: string;
     public email!: string;

@@ -27,3 +27,5 @@ app.get("/", async (req: Request, res: Response) => {
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
+
+//TODO: create a toDTO method
