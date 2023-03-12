@@ -1,18 +1,15 @@
 import IAuthentication from "../interfaces/IAuthentication";
-import { RegisterInput, LoginInput } from "../types/authentication";
+import { Register, Login } from "../types/authentication";
 import { CreateUserDTO, UserDTO } from "../types/user";
 import firebaseAdmin from "../../firebase-service";
 import UserService from "./userService";
 
-
 export default class AuthenticationService implements IAuthentication {
-
     private userService = new UserService();
-     
-    constructor() {
-    }
 
-    public async login(data: LoginInput): Promise<UserDTO> {
+    constructor() {}
+
+    public async login(data: Login): Promise<UserDTO> {
         const user = await firebaseAdmin.auth().getUserByEmail(data.email);
         console.log(user);
         return {
@@ -21,10 +18,10 @@ export default class AuthenticationService implements IAuthentication {
             firstName: user?.displayName,
             lastName: user?.displayName,
             phoneNumber: user.phoneNumber,
-        }   
+        };
     }
-    
-    public async register(data: RegisterInput): Promise<UserDTO> {
+
+    public async register(data: Register): Promise<UserDTO> {
         const user = await this.userService.getByEmail(data.email);
         if (user) {
             throw new Error(`User with email ${data.email} already exists`);
@@ -37,24 +34,23 @@ export default class AuthenticationService implements IAuthentication {
             phoneNumber: data.phoneNumber,
             role: "user",
             isActive: true,
-        }
+        };
         try {
-            const dbUser = await this.userService.create(userInfo);
             const fbUser = await firebaseAdmin.auth().createUser({
                 email: data.email,
                 password: data.password,
             });
+            const dbUser = await this.userService.create(userInfo);
             return {
                 id: fbUser?.uid,
                 email: fbUser.email,
                 firstName: fbUser?.displayName,
                 lastName: fbUser?.displayName,
                 phoneNumber: fbUser.phoneNumber,
-            }
+            };
         } catch (error: any) {
             console.log(error);
             throw new Error(error);
         }
-
     }
 }

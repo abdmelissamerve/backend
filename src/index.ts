@@ -6,7 +6,6 @@ import usersRoutes from "./routes/users.routes";
 import authRoutes from "./routes/auth.routes";
 import database from "./database";
 
-
 const app: Application = express();
 const port = config.port;
 

@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import UserService from "../services/userService";
-import { CreateUserDTO, UpdateUserDTO } from "../types/user";
+import { createUserSchema, updateUserSchema, userSchema } from "../types/user";
+import { validateReqBody, validateQueryParams } from "../middlewares/dataValidation";
+import Joi from "joi";
 
 const router = Router();
 const userService = new UserService();
@@ -11,27 +13,26 @@ router.get("/", async (req: Request, res: Response) => {
     try {
         const result = await userService.getAll(filters);
         res.status(200).json({ users: result });
-    } catch (error) {
-        res.status(500).json({ error: error });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
     }
 });
 
 // GET - users/:id
 router.get("/:id", async (req: Request, res: Response) => {
-    const id = Number(req.params.id);
     try {
+        const id = await validateQueryParams(Joi.number().required(), req.params.id);
         const result = await userService.getById(id);
         res.status(200).json({ user: result });
-    } catch (error) {
-        res.status(500).json({ error: error });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
     }
 });
 
 // POST - users
-router.post("/", async (req: Request, res: Response) => {
-    let newUser = req.body as CreateUserDTO;
+router.post("/", validateReqBody(createUserSchema), async (req: Request, res: Response) => {
     try {
-        const result = await userService.create(newUser);
+        const result = await userService.create(req.body);
         res.status(200).json({ user: result });
     } catch (error) {
         res.status(500).json({ error: error });
@@ -39,14 +40,13 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 // PATCH - users
-router.patch("/:id", async (req: Request, res: Response) => {
+router.patch("/:id", validateReqBody(updateUserSchema), async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const updatedUser = req.body as UpdateUserDTO;
     try {
-        const result = await userService.update(id, updatedUser);
+        const result = await userService.update(id, req.body);
         res.status(200).json({ user: result });
-    } catch (error) {
-        res.status(500).json({ error: error });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -56,8 +56,8 @@ router.delete("/:id", async (req: Request, res: Response) => {
     try {
         const result = await userService.delete(id);
         res.status(200).json({ message: "User deleted successfully" });
-    } catch (error) {
-        res.status(500).json({ error: error });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
     }
 });
 
