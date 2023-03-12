@@ -1,5 +1,5 @@
 import IAuthentication from "../interfaces/IAuthentication";
-import { Register, Login } from "../types/authentication";
+import { Register } from "../types/authentication";
 import { CreateUserDTO, UserDTO } from "../types/user";
 import firebaseAdmin from "../../firebase-service";
 import UserService from "./userService";
@@ -8,18 +8,6 @@ export default class AuthenticationService implements IAuthentication {
     private userService = new UserService();
 
     constructor() {}
-
-    public async login(data: Login): Promise<UserDTO> {
-        const user = await firebaseAdmin.auth().getUserByEmail(data.email);
-        console.log(user);
-        return {
-            id: user?.uid,
-            email: user.email,
-            firstName: user?.displayName,
-            lastName: user?.displayName,
-            phoneNumber: user.phoneNumber,
-        };
-    }
 
     public async register(data: Register): Promise<UserDTO> {
         const user = await this.userService.getByEmail(data.email);

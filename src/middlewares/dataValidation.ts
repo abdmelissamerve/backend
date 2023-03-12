@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export function validateReqBody(schema: any) {
+export function validateRequestBody(schema: any) {
     return (req: Request, res: Response, next: NextFunction) => {
         const result = schema.validate(req.body);
         console.log(result);

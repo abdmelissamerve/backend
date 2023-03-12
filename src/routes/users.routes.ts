@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import UserService from "../services/userService";
 import { createUserSchema, updateUserSchema, userSchema } from "../types/user";
-import { validateReqBody, validateQueryParams } from "../middlewares/dataValidation";
+import { validateRequestBody, validateQueryParams } from "../middlewares/dataValidation";
 import Joi from "joi";
 
 const router = Router();
@@ -30,7 +30,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 // POST - users
-router.post("/", validateReqBody(createUserSchema), async (req: Request, res: Response) => {
+router.post("/", validateRequestBody(createUserSchema), async (req: Request, res: Response) => {
     try {
         const result = await userService.create(req.body);
         res.status(200).json({ user: result });
@@ -40,7 +40,7 @@ router.post("/", validateReqBody(createUserSchema), async (req: Request, res: Re
 });
 
 // PATCH - users
-router.patch("/:id", validateReqBody(updateUserSchema), async (req: Request, res: Response) => {
+router.patch("/:id", validateRequestBody(updateUserSchema), async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     try {
         const result = await userService.update(id, req.body);
