@@ -21,7 +21,7 @@ database.sync().then(() => {
 
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
-app.use("/profile", userProfile);
+app.use("/user", userProfile);
 
 app.get("/", async (req: Request, res: Response) => {
     res.send("Health check passed!");

@@ -16,18 +16,15 @@ export default class UserService implements IUserInterface {
         if (!user) {
             throw new Error(`User with id ${id} not found`);
         }
-        const res: UserDTO = {
-            id: user.id,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-        };
-        return res;
+        return user;
     }
 
     public async getByEmail(email: string): Promise<User | null> {
-        return await User.findOne({ where: { email } });
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            throw new Error(`User with email ${email} not found`);
+        }
+        return user;
     }
 
     public async create(user: CreateUserDTO): Promise<User> {
