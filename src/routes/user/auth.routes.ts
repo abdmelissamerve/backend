@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
-import AuthenticationServices from "../services/authenticationService";
-import { registerSchema } from "../types/authentication";
-import { validateRequestBody } from "../middlewares/dataValidation";
+import AuthenticationServices from "../../services/authenticationService";
+import { registerSchema } from "../../types/authentication";
+import { validateRequestBody } from "../../middlewares/dataValidation";
 
 const router = Router();
 const authenticationService = new AuthenticationServices();
