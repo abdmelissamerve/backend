@@ -5,7 +5,9 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "generate-migration": "npx typeorm-ts-node-esm migration:generate ./src/migrations/$NAME -d ./src/dataSource.ts",
+        "run-migration": "npx typeorm-ts-node-esm migration:run -d ./src/dataSource.ts"
     },
     "keywords": [
         "backend"
@@ -27,7 +29,8 @@
         "pg": "^8.9.0",
         "pg-hstore": "^2.3.4",
         "reflect-metadata": "^0.1.13",
-        "sequelize": "^6.29.0"
+        "sequelize": "^6.29.0",
+        "typeorm": "^0.3.12"
     },
     "devDependencies": {
         "@types/cors": "^2.8.13",

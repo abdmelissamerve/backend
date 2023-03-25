@@ -1,52 +1,34 @@
-import IUserInterface from "../interfaces/IUserInterface";
-import { User } from "../models";
-import { UserDTO, UpdateUserDTO, CreateUserDTO } from "../types/user";
+import { UserRepository } from "../repositories/UserRepository";
+import { User } from "../models/user";
 
-export default class UserService implements IUserInterface {
-    public async getAll(filters: any): Promise<User[]> {
+export class UserService {
+    constructor(private UserRepository: UserRepository) {}
+
+    async getUserById(id: number): Promise<User | null> {
+        return this.UserRepository.findById(id);
+    }
+
+    async getUserByEmail(email: string): Promise<User | null> {
+        return this.UserRepository.findByEmail(email);
+    }
+
+    async getAllUsers(filters: any): Promise<User[]> {
         const whereClause: any = {};
         Object.keys(filters).forEach((key) => {
             whereClause[key] = filters[key];
         });
-        return await User.findAll({ where: whereClause });
+        return this.UserRepository.findAll({});
     }
 
-    public async getById(id: number): Promise<UserDTO | null> {
-        const user = await User.findByPk(id);
-        if (!user) {
-            throw new Error(`User with id ${id} not found`);
-        }
-        return user;
+    async createUser(newuser: any): Promise<User> {
+        return this.UserRepository.save(newuser);
     }
 
-    public async getByEmail(email: string): Promise<User | null> {
-        const user = await User.findOne({ where: { email } });
-        if (!user) {
-            throw new Error(`User with email ${email} not found`);
-        }
-        return user;
+    async updateUser(id: number, updatedUser: Partial<User>): Promise<User | null> {
+        return this.UserRepository.update(id, updatedUser);
     }
 
-    public async create(user: CreateUserDTO): Promise<User> {
-        const newUser = await User.create(user);
-        return newUser;
-    }
-
-    public async update(id: number, updates: UpdateUserDTO): Promise<User> {
-        const user = await User.findByPk(id);
-        if (!user) {
-            throw new Error(`User with id ${id} not found`);
-        }
-        await user.update(updates);
-        return user.reload();
-    }
-
-    public async delete(id: number): Promise<boolean> {
-        const userToDelete = await User.findByPk(id);
-        if (!userToDelete) {
-            throw new Error(`User with id ${id} not found`);
-        }
-        await userToDelete.destroy();
-        return true;
+    async deleteUser(id: number): Promise<void> {
+        return this.UserRepository.delete(id);
     }
 }

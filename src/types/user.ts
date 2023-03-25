@@ -1,5 +1,3 @@
-import { Optional } from "sequelize";
-import { UserModel } from "../models/user";
 import Joi from "joi";
 
 //TODO: create firebase user dto
@@ -13,7 +11,7 @@ export interface UserDTO {
     phoneNumber?: string;
 }
 
-export interface CreateUserDTO extends Optional<UserModel, "id"> {
+export interface CreateUserDTO {
     firstName: string;
     lastName: string;
     email: string;

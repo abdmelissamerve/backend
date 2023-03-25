@@ -1,89 +1,54 @@
-import { Model, Sequelize, DataTypes, Optional } from "sequelize";
-import database from "../database";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    BaseEntity,
+    UpdateDateColumn,
+    DeleteDateColumn,
+    CreateDateColumn,
+} from "typeorm";
 
-export interface UserModel {
+@Entity()
+export class User extends BaseEntity {
+    @PrimaryGeneratedColumn()
     id: number;
+
+    @Column({ type: "varchar", length: 255 })
     firstName: string;
+
+    @Column({ type: "varchar", length: 255 })
     lastName: string;
+
+    @Column({ type: "varchar", length: 255, unique: true })
     email: string;
+
+    @Column({ type: "varchar", length: 255 })
     password: string;
-    phoneNumber?: string;
+
+    @Column({ type: "varchar", length: 255, nullable: true, unique: true })
+    phoneNumber: string;
+
+    @Column({ type: "boolean", default: true })
     isActive: boolean;
-    photoUrl?: string;
+
+    @Column({ type: "varchar", length: 255, nullable: true })
+    photoUrl: string;
+
+    @Column({ type: "varchar", length: 50, default: "user" })
     role: string;
-    // timestamps!
-    createdAt?: Date;
-    updatedAt?: Date;
-    deletedAt?: Date;
+
+    @Column({ type: "boolean", default: true })
+    isEmailVerified: boolean;
+
+    @Column({ type: "varchar", length: 255, nullable: true })
+    verificationCode: string;
+
+    @CreateDateColumn({ nullable: true })
+    createdAt: Date;
+
+    @UpdateDateColumn({ nullable: true })
+    updatedAt: Date;
+
+    @DeleteDateColumn({ nullable: true })
+    deletedAt: Date;
 }
-
-export interface UserInput extends Optional<UserModel, "id"> {}
-
-export interface UserOutput extends Partial<UserModel> {}
-
-class User extends Model<UserModel, UserInput> implements UserModel {
-    declare id: number;
-    public firstName!: string;
-    public lastName!: string;
-    public email!: string;
-    public password!: string;
-    public phoneNumber?: string;
-    public isActive!: boolean;
-    public photoUrl?: string;
-    public role!: string;
-
-    // timestamps!
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-    public readonly deletedAt!: Date;
-}
-
-User.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        firstName: {
-            type: DataTypes.STRING(255),
-        },
-        lastName: {
-            type: DataTypes.STRING(255),
-        },
-        email: {
-            type: DataTypes.STRING(255),
-            allowNull: false,
-            unique: true,
-        },
-        password: {
-            type: DataTypes.STRING(255),
-        },
-        phoneNumber: {
-            type: DataTypes.STRING(255),
-            allowNull: true,
-            unique: true},
-        isActive: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: true,
-        },
-        photoUrl: {
-            type: DataTypes.STRING(255),
-            allowNull: true,
-        },
-        role: {
-            type: DataTypes.STRING(50),
-            allowNull: false,
-            defaultValue: "user",
-        },
-    },
-    {
-        sequelize: database,
-        tableName: "users",
-        timestamps: true,
-        paranoid: true,
-    }
-);
-
-export default User;
