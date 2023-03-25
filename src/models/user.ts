@@ -28,20 +28,23 @@ export class User extends BaseEntity {
     @Column({ type: "varchar", length: 255, nullable: true, unique: true })
     phoneNumber: string;
 
-    @Column({ type: "boolean", default: true })
-    isActive: boolean;
-
     @Column({ type: "varchar", length: 255, nullable: true })
     photoUrl: string;
 
     @Column({ type: "varchar", length: 50, default: "user" })
     role: string;
 
-    @Column({ type: "boolean", default: true })
+    @Column({ type: "boolean", default: false })
     isEmailVerified: boolean;
+
+    @Column({ type: "boolean", default: false })
+    isPhoneVerified: boolean;
 
     @Column({ type: "varchar", length: 255, nullable: true })
     verificationCode: string;
+
+    @Column({ type: "timestamp", nullable: true })
+    codeExpirationDate: Date;
 
     @CreateDateColumn({ nullable: true })
     createdAt: Date;

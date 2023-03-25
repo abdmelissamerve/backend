@@ -4,7 +4,7 @@ import Joi from "joi";
 //TODO: create a toDTO method
 
 export interface UserDTO {
-    id: number | string;
+    id: number;
     firstName?: string;
     lastName?: string;
     email?: string;

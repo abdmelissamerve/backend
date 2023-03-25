@@ -13,6 +13,7 @@ interface Request extends ExpressRequest {
 
 export const getCurrentUser = async (req: Request, res: Response, next: NextFunction) => {
     const tokenHeader = req.headers.authorization;
+    console.log(tokenHeader);
     if (!tokenHeader) {
         return res.status(401).json({ error: "Not authorized" });
     }
