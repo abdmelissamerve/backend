@@ -1,17 +1,18 @@
 import Joi from "joi";
 
-//TODO: create firebase user dto
-//TODO: create a toDTO method
-
+//dto for role: user
 export interface UserDTO {
     id: number;
     firstName?: string;
     lastName?: string;
     email?: string;
     phoneNumber?: string;
+    role?: string;
+    isPhoneVerified?: boolean;
+    isEmailVerified?: boolean;
 }
 
-export interface CreateUserDTO {
+export interface RegisterInputDTO {
     firstName: string;
     lastName: string;
     email: string;

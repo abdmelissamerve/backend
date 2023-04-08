@@ -2,7 +2,7 @@ import "reflect-metadata";
 import express, { Application, Request, Response } from "express";
 import config from "../config";
 import bodyParser from "body-parser";
-import usersRoutes from "./routes/admin/users.routes";
+import usersRoutes from "./routes/users.routes";
 import authRoutes from "./routes/user/auth.routes";
 import userProfile from "./routes/user/userProfile.routes";
 import cors from "cors";

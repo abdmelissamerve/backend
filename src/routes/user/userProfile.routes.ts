@@ -22,7 +22,10 @@ router.get("/profile", getCurrentUser, async (req: Request, res: Response) => {
             firstName: req.user?.firstName,
             lastName: req.user?.lastName,
             phoneNumber: req.user?.phoneNumber,
-        };
+            role: req.user?.role,
+            isPhoneVerified: req.user?.isPhoneVerified,
+            isEmailVerified: req.user?.isEmailVerified,
+        } as UserDTO;
         res.status(200).json({ user: user });
     } catch (error) {
         console.error("Error fetching user profile:", error);

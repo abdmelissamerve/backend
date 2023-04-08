@@ -1,6 +1,6 @@
 import IAuthentication from "../interfaces/IAuthentication";
-import { Register } from "../types/authentication";
-import { CreateUserDTO, UserDTO } from "../types/user";
+import { RegisterInputParams } from "../types/authentication";
+import { RegisterInputDTO, UserDTO } from "../types/user";
 import firebaseAdmin from "../../firebase-service";
 import { UserService } from "./userService";
 import { UserRepository } from "../repositories/UserRepository";
@@ -11,12 +11,12 @@ export default class AuthenticationService implements IAuthentication {
 
     constructor() {}
 
-    public async register(data: Register): Promise<UserDTO> {
+    public async register(data: RegisterInputParams): Promise<UserDTO> {
         const user = await this.userService.getUserByEmail(data.email);
         if (user) {
             throw new Error(`User with email ${data.email} already exists`);
         }
-        const userInfo: CreateUserDTO = {
+        const userInfo: RegisterInputDTO = {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,

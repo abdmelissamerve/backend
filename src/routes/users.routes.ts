@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
-import { UserService } from "../../services/userService";
-import { createUserSchema, updateUserSchema, userSchema } from "../../types/user";
-import { validateRequestBody, validateQueryParams } from "../../middlewares/dataValidation";
+import { UserService } from "../services/userService";
+import { createUserSchema, updateUserSchema, userSchema } from "../types/user";
+import { validateRequestBody, validateQueryParams } from "../middlewares/dataValidation";
 import Joi from "joi";
-import { UserRepository } from "../../repositories/UserRepository";
-import { getCurrentAdmin } from "../../middlewares/auth";
+import { UserRepository } from "../repositories/UserRepository";
+import { getCurrentAdmin } from "../middlewares/auth";
 
 //Routes protected by admin middleware
 const router = Router();

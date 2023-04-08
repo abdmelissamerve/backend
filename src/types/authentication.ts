@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export interface Register {
+export interface RegisterInputParams {
     firstName: string;
     lastName: string;
     email: string;
