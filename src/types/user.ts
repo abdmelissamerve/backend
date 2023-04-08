@@ -9,7 +9,6 @@ export interface UserDTO {
     phoneNumber?: string;
     role?: string;
     isPhoneVerified?: boolean;
-    isEmailVerified?: boolean;
 }
 
 export interface RegisterInputDTO {

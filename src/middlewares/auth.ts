@@ -23,10 +23,6 @@ export const getCurrentUser = async (req: Request, res: Response, next: NextFunc
         if (!dbUser) {
             return res.status(401).json({ error: "Not authorized" });
         }
-        // TODO - uncomment this to require email and phone verification
-        // if (dbUser.isEmailVerified === false || dbUser.isPhoneVerified === false) {
-        //     return res.status(403).json({ error: "Not a verified user" });
-        // }
         req.user = dbUser;
         next();
     } catch (error) {

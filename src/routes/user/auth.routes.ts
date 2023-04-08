@@ -27,7 +27,6 @@ router.post("/register", validateRequestBody(registerSchema), async (req: Reques
             phoneNumber: result.phoneNumber,
             role: result.role,
             isPhoneVerified: result.isPhoneVerified,
-            isEmailVerified: result.isEmailVerified,
         } as UserDTO;
         res.status(200).json({ user: user });
     } catch (error: any) {
