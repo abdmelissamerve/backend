@@ -15,7 +15,6 @@ export interface RegisterInputDTO {
     firstName: string;
     lastName: string;
     email: string;
-    password: string;
     phoneNumber: string;
     role: string;
     isActive: boolean;
@@ -26,7 +25,6 @@ export interface UpdateUserDTO {
     firstName?: string;
     lastName?: string;
     email?: string;
-    password?: string;
     phoneNumber?: string;
     role?: string;
     isActive?: boolean;

@@ -20,7 +20,6 @@ export default class AuthenticationService implements IAuthentication {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
-            password: data.password,
             phoneNumber: data.phoneNumber,
             role: "user",
             isActive: true,
