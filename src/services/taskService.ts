@@ -1,7 +1,7 @@
 import { AdminTaskRepository, UserTaskRepository } from "../repositories/TaskRepository";
 import { Task } from "../models/tasks";
 
-export class TaskService {
+export class AdminTaskService {
     constructor(private taskRepository: AdminTaskRepository) {}
 
     async getAllTasks(filters: any): Promise<Task[]> {

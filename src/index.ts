@@ -7,6 +7,8 @@ import authRoutes from "./routes/user/auth.routes";
 import userProfile from "./routes/user/userProfile.routes";
 import userTaskRoutes from "./routes/user/tasks.routes";
 import adminTaskRoutes from "./routes/admin/tasks.routes";
+import userProjectRoutes from "./routes/user/projects.routes";
+import adminProjectRoutes from "./routes/admin/projects.routes";
 
 import cors from "cors";
 import { AppDataSource } from "./dataSource";
@@ -29,12 +31,14 @@ app.use(cors());
 app.use("/auth", authRoutes);
 
 //USER ROUTES
-app.use("/user/tasks", userTaskRoutes);
 app.use("/user", userProfile);
+app.use("/user/tasks", userTaskRoutes);
+app.use("/user/projects", userProjectRoutes);
 
 //ADMIN ROUTES
 app.use("/admin/users", usersRoutes);
 app.use("/admin/tasks", adminTaskRoutes);
+app.use("/admin/projects", adminProjectRoutes);
 
 app.get("/", async (req: Request, res: Response) => {
     res.send("Health check passed!");

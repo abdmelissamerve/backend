@@ -39,6 +39,7 @@ router.get("/:id", getCurrentUser, async (req: Request, res: Response) => {
     }
 });
 
+// GET - tasks by project
 router.get("/byProject/:id", getCurrentUser, async (req: Request, res: Response) => {
     try {
         const projectId = await validateQueryParams(Joi.number().required(), req.params.id);

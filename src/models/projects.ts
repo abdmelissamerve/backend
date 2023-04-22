@@ -16,7 +16,7 @@ export class Project {
     dueDate: Date;
 
     @Column()
-    createdBy: number;
+    status: string; // "open", "in progress", or "completed"
 
     @ManyToOne(() => User)
     user: User;
