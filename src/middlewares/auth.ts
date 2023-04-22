@@ -31,7 +31,7 @@ export const getCurrentUser = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-// Middleware to check if the user is an admin
+// Middleware to check if the users is an admin
 export const getCurrentAdmin = async (req: Request, res: Response, next: NextFunction) => {
     const tokenHeader = req.headers.authorization;
     if (!tokenHeader) {
@@ -50,7 +50,7 @@ export const getCurrentAdmin = async (req: Request, res: Response, next: NextFun
         req.user = dbUser;
         next();
     } catch (error) {
-        console.error("Error verifying user token:", error);
+        console.error("Error verifying users token:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 };

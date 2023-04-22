@@ -51,7 +51,7 @@ export default class PhoneVerificationService {
         try {
             const user = await this.userService.getUserById(userId);
             if (!user) {
-                throw new Error("User not found");
+                throw new Error("Users not found");
             }
             if (user.codeExpirationDate < new Date()) {
                 throw new Error("Code expired");

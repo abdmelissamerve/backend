@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { User } from "../models/user";
+import { User } from "../models/users";
 import { AppDataSource } from "../dataSource";
 import IUserRepository from "../interfaces/IUserRepository";
 

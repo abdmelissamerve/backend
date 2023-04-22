@@ -27,12 +27,12 @@ router.get("/profile", getCurrentUser, async (req: Request, res: Response) => {
         } as UserDTO;
         res.status(200).json({ user: user });
     } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Error fetching users profile:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });
 
-// TODO - add patch route to update current user profile
+// TODO - add patch route to update current users profile
 // PATCH - /profile
 router.patch("/profile", getCurrentUser, async (req: Request, res: Response) => {});
 

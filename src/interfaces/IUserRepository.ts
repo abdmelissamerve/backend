@@ -1,4 +1,4 @@
-import { User } from "../models/user";
+import { User } from "../models/users";
 
 export default interface IUserRepository {
     findAll(filters: any): Promise<User[]>;

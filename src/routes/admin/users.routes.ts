@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
-import { UserService } from "../services/userService";
-import { createUserSchema, updateUserSchema, userSchema } from "../types/user";
-import { validateRequestBody, validateQueryParams } from "../middlewares/dataValidation";
+import { UserService } from "../../services/userService";
+import { createUserSchema, updateUserSchema, userSchema } from "../../types/user";
+import { validateRequestBody, validateQueryParams } from "../../middlewares/dataValidation";
 import Joi from "joi";
-import { UserRepository } from "../repositories/UserRepository";
-import { getCurrentAdmin } from "../middlewares/auth";
+import { UserRepository } from "../../repositories/UserRepository";
+import { getCurrentAdmin } from "../../middlewares/auth";
 
 //Routes protected by admin middleware
 const router = Router();
@@ -28,7 +28,7 @@ router.get("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
     try {
         const id = await validateQueryParams(Joi.number().required(), req.params.id);
         const result = await userService.getUserById(id);
-        res.status(200).json({ user: result });
+        res.status(200).json({ users: result });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
@@ -38,7 +38,7 @@ router.get("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
 router.post("/", getCurrentAdmin, validateRequestBody(createUserSchema), async (req: Request, res: Response) => {
     try {
         const result = await userService.createUser(req.body);
-        res.status(200).json({ user: result });
+        res.status(200).json({ users: result });
     } catch (error) {
         res.status(500).json({ error: error });
     }
@@ -49,7 +49,7 @@ router.patch("/:id", getCurrentAdmin, validateRequestBody(updateUserSchema), asy
     const id = Number(req.params.id);
     try {
         const result = await userService.updateUser(id, req.body);
-        res.status(200).json({ user: result });
+        res.status(200).json({ users: result });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }
@@ -60,7 +60,7 @@ router.delete("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     try {
         const result = await userService.deleteUser(id);
-        res.status(200).json({ message: "User deleted successfully" });
+        res.status(200).json({ message: "Users deleted successfully" });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
     }

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-//dto for role: user
+//dto for role: users
 export interface UserDTO {
     id: number;
     firstName?: string;

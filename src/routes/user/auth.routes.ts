@@ -37,8 +37,8 @@ router.post("/register", validateRequestBody(registerSchema), async (req: Reques
 // POST - /auth/sendVerificationCode
 router.post("/sendVerificationCode", getCurrentUser, async (req: Request, res: Response) => {
     try {
-        const user = req.user as UserDTO;
-        const result = await phoneVerificationService.sendCode(user.id, user.phoneNumber || "");
+        const users = req.user as UserDTO;
+        const result = await phoneVerificationService.sendCode(users.id, users.phoneNumber || "");
         res.status(200).json({ result: result });
     } catch (error: any) {
         res.status(500).send({ error: error.message });
@@ -48,8 +48,8 @@ router.post("/sendVerificationCode", getCurrentUser, async (req: Request, res: R
 // POST - /auth/verifyCode
 router.post("/verifyCode", getCurrentUser, async (req: Request, res: Response) => {
     try {
-        const user = req.user as UserDTO;
-        const result = await phoneVerificationService.verifyCode(user.id, req.body.code);
+        const users = req.user as UserDTO;
+        const result = await phoneVerificationService.verifyCode(users.id, req.body.code);
         res.status(200).json({ result: result });
     } catch (error: any) {
         res.status(500).send({ error: error.message });
