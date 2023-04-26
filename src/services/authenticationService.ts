@@ -25,11 +25,11 @@ export default class AuthenticationService implements IAuthentication {
             isActive: true,
         };
         try {
+            const dbUser = await this.userService.createUser(userInfo);
             const fbUser = await firebaseAdmin.auth().createUser({
                 email: data.email,
                 password: data.password,
             });
-            const dbUser = await this.userService.createUser(userInfo);
             return {
                 id: dbUser?.id,
                 email: fbUser.email,
@@ -38,8 +38,8 @@ export default class AuthenticationService implements IAuthentication {
                 phoneNumber: fbUser.phoneNumber,
             };
         } catch (error: any) {
-            console.log(error);
-            throw new Error(error);
+            console.log("error from service", error);
+            throw error;
         }
     }
 }

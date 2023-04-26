@@ -30,7 +30,18 @@ router.post("/register", validateRequestBody(registerSchema), async (req: Reques
         } as UserDTO;
         res.status(200).json({ user: user });
     } catch (error: any) {
-        res.status(500).send({ error: error.message });
+        if (error.message.includes("duplicate key value violates unique constraint") && error.detail) {
+            if (error.detail.includes('"phoneNumber"')) {
+                const phoneNumberMatch = error.detail.match(/=\((.+?)\)/);
+                const phoneNumber = phoneNumberMatch ? phoneNumberMatch[1] : "";
+                const errorMessage = `The phone number '${phoneNumber}' is already in use.`;
+                res.status(409).send({ error: errorMessage });
+            } else {
+                res.status(500).send({ error: "An unexpected error occurred during registration." });
+            }
+        } else {
+            res.status(500).send({ error: error.message });
+        }
     }
 });
 
