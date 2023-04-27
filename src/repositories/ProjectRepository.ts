@@ -11,7 +11,12 @@ export class AdminProjectRepository implements IAdminProjectRepository {
     }
 
     public async findAll(filters: any): Promise<Project[]> {
-        return this.repository.find(filters);
+        const projects = await this.repository
+            .createQueryBuilder("project")
+            .innerJoinAndSelect("project.user", "user")
+            .where(filters)
+            .getMany();
+        return projects;
     }
 
     public async findById(id: number): Promise<Project | null> {
