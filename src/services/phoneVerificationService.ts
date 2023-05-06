@@ -47,7 +47,7 @@ export default class PhoneVerificationService {
         }
     }
 
-    async verifyCode(userId: number, inputCode: number): Promise<boolean> {
+    async verifyCode(userId: number, inputCode: string): Promise<boolean> {
         try {
             const user = await this.userService.getUserById(userId);
             if (!user) {
@@ -56,8 +56,7 @@ export default class PhoneVerificationService {
             if (user.codeExpirationDate < new Date()) {
                 throw new Error("Code expired");
             }
-            const isCodeValid = await bcrypt.compare(inputCode.toString(), user.verificationCode);
-
+            const isCodeValid = await bcrypt.compare(inputCode, user.verificationCode);
             if (isCodeValid) {
                 await this.userService.updateUser(userId, {
                     isPhoneVerified: true,
