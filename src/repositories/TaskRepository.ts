@@ -11,9 +11,24 @@ export class AdminTaskRepository implements IAdminTaskRepository {
     }
 
     public async findAll(filters: any): Promise<Task[]> {
-        return this.repository.find(filters);
-    }
+        const queryBuilder = this.repository.createQueryBuilder("task");
 
+        queryBuilder.innerJoinAndSelect("task.user", "user");
+
+        if (filters.projectId) {
+            queryBuilder
+                .innerJoin("task.project", "project")
+                .andWhere("project.id = :projectId", { projectId: filters.projectId });
+            delete filters.projectId;
+        }
+
+        Object.keys(filters).forEach((key) => {
+            const paramName = `${key}Param`;
+            queryBuilder.andWhere(`task.${key} = :${paramName}`, { [paramName]: filters[key] });
+        });
+
+        return await queryBuilder.getMany();
+    }
     public async findById(id: number): Promise<Task | null> {
         return this.repository.findOneBy({ id: id });
     }

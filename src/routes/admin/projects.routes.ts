@@ -45,7 +45,8 @@ router.get("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
 // POST - projects
 router.post("/", getCurrentAdmin, validateRequestBody(createProjectSchema), async (req: Request, res: Response) => {
     try {
-        const params = { ...req.body, user: req.user?.id };
+        const params = { ...req.body };
+        console.log(params);
         const result = await projectService.createProject(params);
         res.status(200).json({ projects: result });
     } catch (error) {

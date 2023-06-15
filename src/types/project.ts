@@ -40,6 +40,7 @@ export const createProjectSchema = Joi.object({
     description: Joi.string().required(),
     dueDate: Joi.date().required(),
     status: Joi.string().optional(),
+    user: Joi.number().optional(),
 });
 
 export const updateProjectSchema = Joi.object({
@@ -47,4 +48,5 @@ export const updateProjectSchema = Joi.object({
     description: Joi.string().optional(),
     dueDate: Joi.date().optional(),
     status: Joi.string().optional(),
+    user: Joi.number().optional(),
 });
