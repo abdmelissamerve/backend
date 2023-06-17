@@ -43,7 +43,7 @@ router.get("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
 // POST - tasks
 router.post("/", getCurrentAdmin, validateRequestBody(createTaskSchema), async (req: Request, res: Response) => {
     try {
-        const params = { ...req.body, user: req.user?.id };
+        const params = { ...req.body, user: req.body.user ? req.body.user : req.user!.id };
         const result = await taskService.createTask(params);
         res.status(200).json({ tasks: result });
     } catch (error) {

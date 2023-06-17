@@ -19,9 +19,6 @@ export class Task {
     @Column()
     status: string; // "open", "in progress", or "completed"
 
-    @Column()
-    assignedTo: number;
-
     @ManyToOne(() => Project, { onDelete: "CASCADE" })
     project: Project;
 

@@ -20,7 +20,14 @@ export class AdminProjectRepository implements IAdminProjectRepository {
     }
 
     public async findById(id: number): Promise<Project | null> {
-        return this.repository.findOneBy({ id: id });
+        return this.repository.findOne({
+            where: {
+                id: id,
+            },
+            relations: {
+                user: true,
+            },
+        });
     }
 
     public async save(project: Partial<Project>): Promise<Project> {

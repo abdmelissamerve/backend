@@ -1,8 +1,9 @@
 import { Router, Request as ExpressRequest, Response, RequestHandler, NextFunction } from "express";
 import { UserService } from "../../services/userService";
 import { getCurrentUser } from "../../middlewares/auth";
-import { UserDTO } from "../../types/user";
+import { updateUserSchema, UserDTO } from "../../types/user";
 import { UserRepository } from "../../repositories/UserRepository";
+import { validateRequestBody } from "../../middlewares/dataValidation";
 
 const router = Router();
 const userRepository = new UserRepository();
@@ -34,6 +35,13 @@ router.get("/profile", getCurrentUser, async (req: Request, res: Response) => {
 
 // TODO - add patch route to update current users profile
 // PATCH - /profile
-router.patch("/profile", getCurrentUser, async (req: Request, res: Response) => {});
+router.patch("/profile", validateRequestBody(updateUserSchema), getCurrentUser, async (req: Request, res: Response) => {
+    try {
+        const result = await userService.updateUser(req.user!.id, req.body);
+        res.status(200).json({ users: result });
+    } catch (error: any) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 export default router;

@@ -26,7 +26,7 @@ export interface UpdateTaskDTO {
     description?: string;
     status?: string;
     dueDate?: Date;
-    assignedTo?: number;
+
     projectId?: number;
 }
 
@@ -38,7 +38,6 @@ export const taskSchema = Joi.object({
     description: Joi.string().required(),
     dueDate: Joi.date().required(),
     status: Joi.string().optional(),
-    assignedTo: Joi.number().optional(),
     projectId: Joi.number().required(),
     user: Joi.number().required(),
 });
@@ -48,8 +47,8 @@ export const createTaskSchema = Joi.object({
     description: Joi.string().required(),
     dueDate: Joi.date().required(),
     status: Joi.string().optional(),
-    assignedTo: Joi.number().optional(),
     project: Joi.number().required(),
+    user: Joi.number().optional(),
 });
 
 export const updateTaskSchema = Joi.object({
@@ -57,5 +56,5 @@ export const updateTaskSchema = Joi.object({
     description: Joi.string().optional(),
     dueDate: Joi.date().optional(),
     status: Joi.string().optional(),
-    assignedTo: Joi.number().optional(),
+    user: Joi.number().optional(),
 });

@@ -14,8 +14,8 @@ import { AdminTaskRepository } from "../../repositories/TaskRepository";
 const router = Router();
 
 const projectRepository = new AdminProjectRepository();
-
-const projectService = new AdminProjectService(projectRepository);
+const taskRepository = new AdminTaskRepository();
+const projectService = new AdminProjectService(projectRepository, taskRepository);
 
 interface Request extends ExpressRequest {
     user?: UserDTO;
@@ -48,7 +48,9 @@ router.get("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
 router.post("/", getCurrentAdmin, validateRequestBody(createProjectSchema), async (req: Request, res: Response) => {
     try {
         const params = { ...req.body };
-        console.log(params);
+        if (!params.user) {
+            params.user = req.user!.id;
+        }
         const result = await projectService.createProject(params);
         res.status(200).json({ projects: result });
     } catch (error) {

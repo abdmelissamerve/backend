@@ -30,9 +30,15 @@ export class AdminTaskRepository implements IAdminTaskRepository {
         return await queryBuilder.getMany();
     }
     public async findById(id: number): Promise<Task | null> {
-        return this.repository.findOneBy({ id: id });
+        return this.repository.findOne({
+            where: {
+                id: id,
+            },
+            relations: {
+                user: true,
+            },
+        });
     }
-
     public async save(task: Partial<Task>): Promise<Task> {
         return this.repository.save(task);
     }

@@ -1,8 +1,9 @@
 import { Project } from "../models/projects";
 import { AdminProjectRepository, UserProjectRepository } from "../repositories/ProjectRepository";
+import { AdminTaskRepository } from "../repositories/TaskRepository";
 
 export class AdminProjectService {
-    constructor(private projectRepository: AdminProjectRepository) {}
+    constructor(private projectRepository: AdminProjectRepository, private taskRepository: AdminTaskRepository) {}
 
     async getAllProjects(filters: any): Promise<Project[]> {
         return this.projectRepository.findAll(filters);
@@ -21,6 +22,16 @@ export class AdminProjectService {
     }
 
     async updateProject(id: number, updatedProject: Partial<Project>): Promise<Project | null> {
+        const project = await this.projectRepository.findById(id);
+
+        if (project?.user?.id !== updatedProject.user) {
+            const tasks = await this.taskRepository.findAll({ projectId: id });
+            tasks.forEach(async (task) => {
+                await this.taskRepository.update(task.id, {
+                    user: updatedProject.user,
+                });
+            });
+        }
         return this.projectRepository.update(id, updatedProject);
     }
 
