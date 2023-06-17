@@ -55,6 +55,7 @@ router.post("/", getCurrentAdmin, validateRequestBody(createTaskSchema), async (
 router.patch("/:id", getCurrentAdmin, validateRequestBody(updateTaskSchema), async (req: Request, res: Response) => {
     const id = Number(req.params.id);
     try {
+        console.log(req.body);
         const result = await taskService.updateTask(id, req.body);
         res.status(200).json({ tasks: result });
     } catch (error: any) {

@@ -22,9 +22,9 @@ export class Task {
     @Column()
     assignedTo: number;
 
-    @ManyToOne(() => Project)
+    @ManyToOne(() => Project, { onDelete: "CASCADE" })
     project: Project;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { onDelete: "CASCADE" })
     user: User;
 }

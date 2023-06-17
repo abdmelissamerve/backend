@@ -58,5 +58,4 @@ export const updateTaskSchema = Joi.object({
     dueDate: Joi.date().optional(),
     status: Joi.string().optional(),
     assignedTo: Joi.number().optional(),
-    projectId: Joi.number().optional(),
 });

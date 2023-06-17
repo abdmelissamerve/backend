@@ -6,10 +6,12 @@ import Joi from "joi";
 import { UserProjectRepository } from "../../repositories/ProjectRepository";
 import { getCurrentUser } from "../../middlewares/auth";
 import { UserDTO } from "../../types/user";
+import { UserTaskRepository } from "../../repositories/TaskRepository";
 
 const router = Router();
 
 const projectRepository = new UserProjectRepository();
+
 const projectService = new UserProjectService(projectRepository);
 
 interface Request extends ExpressRequest {

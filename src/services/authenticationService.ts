@@ -38,10 +38,10 @@ export default class AuthenticationService implements IAuthentication {
             });
             return {
                 id: dbUser?.id,
-                email: fbUser.email,
+                email: fbUser?.email,
                 firstName: dbUser?.firstName,
                 lastName: dbUser?.lastName,
-                phoneNumber: fbUser.phoneNumber,
+                phoneNumber: dbUser?.phoneNumber,
             };
         } catch (error: any) {
             console.log("error from service", error);

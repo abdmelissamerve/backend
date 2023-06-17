@@ -1,6 +1,7 @@
 import { UserRepository } from "../repositories/UserRepository";
 import { User } from "../models/users";
-import { where } from "sequelize";
+import firebaseAdmin from "../../firebase-service";
+import { RegisterInputDTO } from "../types/user";
 
 export class UserService {
     constructor(private UserRepository: UserRepository) {}
@@ -37,7 +38,17 @@ export class UserService {
             throw new Error(`User with phone number ${newuser.phoneNumber} already exists`);
         }
 
-        return this.UserRepository.save(newuser);
+        try {
+            const dbUser = await this.UserRepository.save(newuser);
+            await firebaseAdmin.auth().createUser({
+                email: newuser.email,
+                password: newuser.password,
+            });
+            return dbUser;
+        } catch (error: any) {
+            console.log("error from service", error);
+            throw error;
+        }
     }
 
     async updateUser(id: number, updatedUser: Partial<User>): Promise<User | null> {
@@ -49,6 +60,11 @@ export class UserService {
 
         if (user?.role === "admin") {
             throw new Error("Cannot delete an admin user");
+        }
+
+        const firebaseUser = await firebaseAdmin.auth().getUserByEmail(user?.email || "");
+        if (firebaseUser) {
+            await firebaseAdmin.auth().deleteUser(firebaseUser.uid);
         }
 
         return this.UserRepository.delete(id);

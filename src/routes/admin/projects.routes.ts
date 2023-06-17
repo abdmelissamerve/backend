@@ -9,10 +9,12 @@ import Joi from "joi";
 import { AdminProjectRepository } from "../../repositories/ProjectRepository";
 import { getCurrentAdmin } from "../../middlewares/auth";
 import { UserDTO } from "../../types/user";
+import { AdminTaskRepository } from "../../repositories/TaskRepository";
 
 const router = Router();
 
 const projectRepository = new AdminProjectRepository();
+
 const projectService = new AdminProjectService(projectRepository);
 
 interface Request extends ExpressRequest {

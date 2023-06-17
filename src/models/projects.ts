@@ -18,6 +18,6 @@ export class Project {
     @Column()
     status: string; // "open", "in progress", or "completed"
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, { onDelete: "CASCADE" })
     user: User;
 }
