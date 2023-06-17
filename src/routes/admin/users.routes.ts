@@ -37,15 +37,17 @@ router.get("/:id", getCurrentAdmin, async (req: Request, res: Response) => {
 // POST - users
 router.post("/", getCurrentAdmin, validateRequestBody(createUserSchema), async (req: Request, res: Response) => {
     try {
+        console.log(req.body);
         const result = await userService.createUser(req.body);
         res.status(200).json({ users: result });
-    } catch (error) {
-        res.status(500).json({ error: error });
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
     }
 });
 
 // PATCH - users
 router.patch("/:id", getCurrentAdmin, validateRequestBody(updateUserSchema), async (req: Request, res: Response) => {
+    console.log(req.body, req.params.id);
     const id = Number(req.params.id);
     try {
         const result = await userService.updateUser(id, req.body);

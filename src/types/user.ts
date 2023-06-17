@@ -17,7 +17,6 @@ export interface RegisterInputDTO {
     email: string;
     phoneNumber: string;
     role: string;
-    isActive: boolean;
     photoUrl?: string;
 }
 
@@ -27,7 +26,6 @@ export interface UpdateUserDTO {
     email?: string;
     phoneNumber?: string;
     role?: string;
-    isActive?: boolean;
     photoUrl?: string;
 }
 
@@ -48,17 +46,13 @@ export const createUserSchema = Joi.object({
     password: Joi.string().required(),
     phoneNumber: Joi.string().required(),
     role: Joi.string().required(),
-    isActive: Joi.boolean().required(),
     photoUrl: Joi.string().optional(),
 });
 
 export const updateUserSchema = Joi.object({
     firstName: Joi.string().optional(),
     lastName: Joi.string().optional(),
-    email: Joi.string().email().optional(),
-    password: Joi.string().optional(),
     phoneNumber: Joi.string().optional(),
     role: Joi.string().optional(),
-    isActive: Joi.boolean().optional(),
     photoUrl: Joi.string().optional(),
 });

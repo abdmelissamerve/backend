@@ -18,6 +18,10 @@ export class UserRepository implements IUserRepository {
         return this.repository.findOneBy({ email: email });
     }
 
+    async findByPhone(phoneNumber: string): Promise<User | null> {
+        return this.repository.findOneBy({ phoneNumber: phoneNumber });
+    }
+
     async findAll(filters: any): Promise<User[]> {
         return await this.repository.find({ where: filters });
     }

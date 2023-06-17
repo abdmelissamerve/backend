@@ -16,13 +16,19 @@ export default class AuthenticationService implements IAuthentication {
         if (user) {
             throw new Error(`User with email ${data.email} already exists`);
         }
+
+        const userByPhone = await this.userService.getUserByPhone(data.phoneNumber);
+
+        if (userByPhone) {
+            throw new Error(`User with phone number ${data.phoneNumber} already exists`);
+        }
+
         const userInfo: RegisterInputDTO = {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
             phoneNumber: data.phoneNumber,
             role: "user",
-            isActive: true,
         };
         try {
             const dbUser = await this.userService.createUser(userInfo);
