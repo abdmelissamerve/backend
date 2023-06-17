@@ -27,24 +27,21 @@ export default class AuthenticationService implements IAuthentication {
             firstName: data.firstName,
             lastName: data.lastName,
             email: data.email,
+            password: data.password,
             phoneNumber: data.phoneNumber,
             role: "user",
         };
         try {
             const dbUser = await this.userService.createUser(userInfo);
-            const fbUser = await firebaseAdmin.auth().createUser({
-                email: data.email,
-                password: data.password,
-            });
             return {
                 id: dbUser?.id,
-                email: fbUser?.email,
+                email: dbUser?.email,
                 firstName: dbUser?.firstName,
                 lastName: dbUser?.lastName,
                 phoneNumber: dbUser?.phoneNumber,
             };
         } catch (error: any) {
-            console.log("error from service", error);
+            console.log("error from service 1", error);
             throw error;
         }
     }
