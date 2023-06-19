@@ -28,11 +28,9 @@ export class UserService {
 
     async createUser(newuser: any): Promise<User> {
         const user = await this.getUserByEmail(newuser.email);
-        console.log("user", user);
         if (user) {
             throw new Error(`User with email ${newuser.email} already exists`);
         }
-
         const userByPhone = await this.getUserByPhone(newuser.phoneNumber);
         if (userByPhone) {
             throw new Error(`User with phone number ${newuser.phoneNumber} already exists`);

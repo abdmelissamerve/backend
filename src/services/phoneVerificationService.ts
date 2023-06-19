@@ -56,7 +56,9 @@ export default class PhoneVerificationService {
             if (user.codeExpirationDate < new Date()) {
                 throw new Error("Code expired");
             }
+
             const isCodeValid = await bcrypt.compare(inputCode, user.verificationCode);
+
             if (isCodeValid) {
                 await this.userService.updateUser(userId, {
                     isPhoneVerified: true,

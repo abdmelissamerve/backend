@@ -18,7 +18,7 @@ interface Request extends ExpressRequest {
 router.post("/register", validateRequestBody(registerSchema), async (req: Request, res: Response) => {
     try {
         const result = await authenticationService.register(req.body);
-        //Only return data that is safe to expose to the client
+        //Only return data that is safe to expose to the user
         const user = {
             id: result.id,
             email: result.email,
