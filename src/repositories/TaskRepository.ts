@@ -13,8 +13,6 @@ export class AdminTaskRepository implements IAdminTaskRepository {
     public async findAll(filters: any): Promise<Task[]> {
         const queryBuilder = this.repository.createQueryBuilder("task");
 
-        queryBuilder.innerJoinAndSelect("task.user", "user");
-
         if (filters.projectId) {
             queryBuilder
                 .innerJoin("task.project", "project")
@@ -29,14 +27,12 @@ export class AdminTaskRepository implements IAdminTaskRepository {
 
         return await queryBuilder.getMany();
     }
+    
     public async findById(id: number): Promise<Task | null> {
         return this.repository.findOne({
             where: {
                 id: id,
-            },
-            relations: {
-                user: true,
-            },
+            }
         });
     }
     public async save(task: Partial<Task>): Promise<Task> {
@@ -69,11 +65,10 @@ export class UserTaskRepository implements IUserTaskRepository {
         return await queryBuilder.getMany();
     }
 
-    public async findById(id: number, userId: number): Promise<Task | null> {
+    public async findById(id: number): Promise<Task | null> {
         return await this.repository
             .createQueryBuilder("task")
             .where("task.id = :id", { id })
-            .andWhere("task.user = :userId", { userId })
             .getOne();
     }
 

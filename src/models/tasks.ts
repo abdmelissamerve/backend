@@ -22,6 +22,4 @@ export class Task {
     @ManyToOne(() => Project, { onDelete: "CASCADE" })
     project: Project;
 
-    @ManyToOne(() => User, { onDelete: "CASCADE" })
-    user: User;
 }

@@ -20,7 +20,7 @@ interface Request extends ExpressRequest {
 // GET - user tasks
 router.get("/", getCurrentUser, async (req: Request, res: Response) => {
     try {
-        const filters = { ...req.query, user: req.user!.id };
+        const filters = { ...req.query };
         const result = await taskService.getAllTasks(filters);
         res.status(200).json({ tasks: result });
     } catch (error: any) {
@@ -32,7 +32,7 @@ router.get("/", getCurrentUser, async (req: Request, res: Response) => {
 router.get("/:id", getCurrentUser, async (req: Request, res: Response) => {
     try {
         const id = await validateQueryParams(Joi.number().required(), req.params.id);
-        const result = await taskService.getTaskById(id, req.user!.id);
+        const result = await taskService.getTaskById(id);
         res.status(200).json({ tasks: result });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
@@ -43,7 +43,7 @@ router.get("/:id", getCurrentUser, async (req: Request, res: Response) => {
 router.get("/byProject/:id", getCurrentUser, async (req: Request, res: Response) => {
     try {
         const projectId = await validateQueryParams(Joi.number().required(), req.params.id);
-        const result = await taskService.getTasksByProjectId(projectId, req.user!.id);
+        const result = await taskService.getTasksByProjectId(projectId);
         res.status(200).json({ tasks: result });
     } catch (error: any) {
         res.status(500).json({ error: error.message });
@@ -53,7 +53,7 @@ router.get("/byProject/:id", getCurrentUser, async (req: Request, res: Response)
 // POST - tasks
 router.post("/", getCurrentUser, validateRequestBody(createTaskSchema), async (req: Request, res: Response) => {
     try {
-        const params = { ...req.body, user: req.user!.id };
+        const params = { ...req.body };
         const result = await taskService.createTask(params);
         res.status(200).json({ tasks: result });
     } catch (error) {
@@ -65,7 +65,7 @@ router.post("/", getCurrentUser, validateRequestBody(createTaskSchema), async (r
 router.patch("/:id", getCurrentUser, validateRequestBody(updateTaskSchema), async (req: Request, res: Response) => {
     try {
         const id = await validateQueryParams(Joi.number().required(), req.params.id);
-        const task = await taskService.getTaskById(id, req.user!.id);
+        const task = await taskService.getTaskById(id);
         if (!task) {
             throw new Error("No task found!");
         }
@@ -80,7 +80,7 @@ router.patch("/:id", getCurrentUser, validateRequestBody(updateTaskSchema), asyn
 router.delete("/:id", getCurrentUser, async (req: Request, res: Response) => {
     try {
         const id = await validateQueryParams(Joi.number().required(), req.params.id);
-        const task = await taskService.getTaskById(id, req.user!.id);
+        const task = await taskService.getTaskById(id);
         if (!task) {
             throw new Error("No task found!");
         }

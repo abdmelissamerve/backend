@@ -5,6 +5,7 @@ export class AdminTaskService {
     constructor(private taskRepository: AdminTaskRepository) {}
 
     async getAllTasks(filters: any): Promise<Task[]> {
+       
         return this.taskRepository.findAll(filters);
     }
 
@@ -36,12 +37,12 @@ export class UserTaskService {
         return this.taskRepository.findAll(filters);
     }
 
-    async getTaskById(id: number, userId: number): Promise<Task | null> {
-        return this.taskRepository.findById(id, userId);
+    async getTaskById(id: number): Promise<Task | null> {
+        return this.taskRepository.findById(id);
     }
 
-    async getTasksByProjectId(projectId: number, userId: number): Promise<Task[]> {
-        return this.taskRepository.findAll({ projectId: projectId, userId: userId });
+    async getTasksByProjectId(projectId: number): Promise<Task[]> {
+        return this.taskRepository.findAll({ projectId: projectId });
     }
 
     async createTask(newTask: any): Promise<Task> {
